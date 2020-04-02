@@ -1,2 +1,6 @@
 venv/
 logs/
+data/
+.ipynb_checkpoints/
+__pycache__/
+*.tar.gz
