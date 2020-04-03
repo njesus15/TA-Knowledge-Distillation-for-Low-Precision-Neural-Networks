@@ -5,7 +5,7 @@ def get_train_config(args, config):
         'momentum': args.momentum,
         'weight_decay': args.weight_decay,
         'device': 'cuda' if args.cuda else 'cpu',
-        'trial_id': config.get('trial_id'),
+        'trial_id': args.trial_id,
         'T_student': config.get('T_student'),
         'lambda_student': config.get('lambda_student'),
         'dataset': args.dataset
@@ -30,7 +30,6 @@ def get_config():
     }
 
     config = {
-        'trial_id': '[trial id not used]',
         'seed': search_space['seed']['_value'][0],
         # Tempature and lambda knowledeg distill hyperparam
         'T_student': search_space['T_student']['_value'][2], # temp of 1 is just regular softmax

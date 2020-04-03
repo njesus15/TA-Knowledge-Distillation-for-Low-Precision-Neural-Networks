@@ -21,6 +21,7 @@ def parse_arguments():
     parser.add_argument('--teacher-checkpoint', default='', type=str, help='optinal pretrained checkpoint for teacher')
     parser.add_argument('--cuda', default=False, type=str2bool, help='whether or not use cuda(train on GPU)')
     parser.add_argument('--dataset-dir', default='./data', type=str,  help='dataset directory')
+    parser.add_argument('--trial-id', default='[trial_id_not_used]', type=str,  help='dataset directory')
     parser.add_argument('--test-run', action='store_true', help='test everything loads correctly')
     args = parser.parse_args()
     return args
