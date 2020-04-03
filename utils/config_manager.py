@@ -1,3 +1,17 @@
+def get_train_config(args, config):
+    train_config = {
+        'epochs': args.epochs,
+        'learning_rate': args.learning_rate,
+        'momentum': args.momentum,
+        'weight_decay': args.weight_decay,
+        'device': 'cuda' if args.cuda else 'cpu',
+        'trial_id': config.get('trial_id'),
+        'T_student': config.get('T_student'),
+        'lambda_student': config.get('lambda_student'),
+    }
+    return train_config
+
+
 def get_config():
     search_space = {
         "lambda_student": {

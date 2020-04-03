@@ -261,16 +261,13 @@ class PreAct_ResNet_Cifar(nn.Module):
 
         return x
 
-
-
-def resnet14_cifar(**kwargs):
-    model = ResNet_Cifar(BasicBlock, [2, 2, 2], **kwargs)
-    return model
-
 def resnet8_cifar(**kwargs):
     model = ResNet_Cifar(BasicBlock, [1, 1, 1], **kwargs)
     return model
 
+def resnet14_cifar(**kwargs):
+    model = ResNet_Cifar(BasicBlock, [2, 2, 2], **kwargs)
+    return model
 
 def resnet20_cifar(**kwargs):
     model = ResNet_Cifar(BasicBlock, [3, 3, 3], **kwargs)
@@ -280,98 +277,41 @@ def resnet26_cifar(**kwargs):
     model = ResNet_Cifar(BasicBlock, [4, 4, 4], **kwargs)
     return model
 
-def resnet32_cifar(**kwargs):
-    model = ResNet_Cifar(BasicBlock, [5, 5, 5], **kwargs)
-    return model
-
-
-def resnet44_cifar(**kwargs):
-    model = ResNet_Cifar(BasicBlock, [7, 7, 7], **kwargs)
-    return model
-
-
-def resnet56_cifar(**kwargs):
-    model = ResNet_Cifar(BasicBlock, [9, 9, 9], **kwargs)
-    return model
-
-
-def resnet110_cifar(**kwargs):
-    model = ResNet_Cifar(BasicBlock, [18, 18, 18], **kwargs)
-    return model
-
-
-def resnet1202_cifar(**kwargs):
-    model = ResNet_Cifar(BasicBlock, [200, 200, 200], **kwargs)
-    return model
-
-
-def resnet164_cifar(**kwargs):
-    model = ResNet_Cifar(Bottleneck, [18, 18, 18], **kwargs)
-    return model
-
-
-def resnet1001_cifar(**kwargs):
-    model = ResNet_Cifar(Bottleneck, [111, 111, 111], **kwargs)
-    return model
-
-
-def preact_resnet110_cifar(**kwargs):
-    model = PreAct_ResNet_Cifar(PreActBasicBlock, [18, 18, 18], **kwargs)
-    return model
-
-
-def preact_resnet164_cifar(**kwargs):
-    model = PreAct_ResNet_Cifar(PreActBottleneck, [18, 18, 18], **kwargs)
-    return model
-
-
-def preact_resnet1001_cifar(**kwargs):
-    model = PreAct_ResNet_Cifar(PreActBottleneck, [111, 111, 111], **kwargs)
-    return model
-
-resnet_book = {
-	'8': resnet8_cifar,
-	'14': resnet14_cifar,
-	'20': resnet20_cifar,
-	'26': resnet26_cifar,
-	'32': resnet32_cifar,
-	'44': resnet44_cifar,
-	'56': resnet56_cifar,
-	'110': resnet110_cifar,
+resnet_models = {
+    '8': resnet8_cifar,
+    '14': resnet14_cifar,
+    '20': resnet20_cifar,
+    '26': resnet26_cifar,
 }
 
 def is_resnet(name):
-	"""
-	Simply checks if name represents a resnet, by convention, all resnet names start with 'resnet'
-	:param name:
-	:return:
-	"""
-	name = name.lower()
-	return name.startswith('resnet')
+    """
+    Simply checks if name represents a resnet, by convention, all resnet names start with 'resnet'
+    :param name:
+    :return:
+    """
+    name = name.lower()
+    return name.startswith('resnet')
 
 
 def create_cnn_model(name, dataset="cifar100", use_cuda=False):
-	"""
-	Create a student for training, given student name and dataset
-	:param name: name of the student. e.g., resnet110, resnet32, plane2, plane10, ...
-	:param dataset: the dataset which is used to determine last layer's output size. Options are cifar10 and cifar100.
-	:return: a pytorch student for neural network
-	"""
-	num_classes = 100 if dataset == 'cifar100' else 10
-	model = None
-	if is_resnet(name):
-		resnet_size = name[6:]
-		resnet_model = resnet_book.get(resnet_size)(num_classes=num_classes)
-		model = resnet_model
-		
-	else:
-		plane_size = name[5:]
-		model_spec = plane_cifar10_book.get(plane_size) if num_classes == 10 else plane_cifar100_book.get(plane_size)
-		plane_model = ConvNetMaker(model_spec)
-		model = plane_model
+    """
+    Create a student for training, given student name and dataset
+    :param name: name of the student. e.g., resnet110, resnet32, plane2, plane10, ...
+    :param dataset: the dataset which is used to determine last layer's output size. Options are cifar10 and cifar100.
+    :return: a pytorch student for neural network
+    """
+    num_classes = 100 if dataset == 'cifar100' else 10
+    model = None
+    if is_resnet(name):
+        resnet_size = name[6:]
+        resnet_model = resnet_models.get(resnet_size)(num_classes=num_classes)
+        model = resnet_model
+    else:
+        raise Exception('not resnet!')
 
-	# copy to cuda if activated
-	if use_cuda:
-		model = model.cuda()
-		
-	return model
+    # copy to cuda if activated
+    if use_cuda:
+        model = model.cuda()
+        
+    return model
