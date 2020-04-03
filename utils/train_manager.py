@@ -121,13 +121,14 @@ class TrainManager(object):
 # Train Teacher if provided a teacher, otherwise it's a normal training using only cross entropy loss
 # This is for training single models(NOKD in paper) for baselines models (or training the first teacher)    
 def train_teacher(args, train_config):
-    teacher_model = get_model(args.teacher, train_config['dataset'], use_cuda=args.cuda)
+    dataset = train_config['dataset']
+    teacher_model = get_model(args.teacher, dataset, use_cuda=args.cuda)
     if args.teacher_checkpoint:
         print("---------- Loading Teacher -------")
         teacher_model = load_checkpoint(teacher_model, args.teacher_checkpoint)
     else:
         print("---------- Training Teacher -------")
-        train_loader, test_loader = get_dataset()
+        train_loader, test_loader = get_dataset(dataset)
         teacher_train_config = copy.deepcopy(train_config)
         teacher_name = '{}_{}_best.pth.tar'.format(args.teacher, train_config['trial_id'])
         teacher_train_config['name'] = args.teacher
@@ -136,7 +137,8 @@ def train_teacher(args, train_config):
         teacher_model = load_checkpoint(teacher_model, os.path.join('./', teacher_name))
 
 def train_student(args, train_config, teacher_model=None):
-    student_model = get_model(args.student, train_config['dataset'], use_cuda=args.cuda)    
+    dataset = train_config['dataset']
+    student_model = get_model(args.student, dataset, use_cuda=args.cuda)    
     # Student training
     if teacher_model == None:
         print("---------- No Teacher -------------")
@@ -144,7 +146,7 @@ def train_student(args, train_config, teacher_model=None):
     else:
         print("---------- Training Student -------")
     student_train_config = copy.deepcopy(train_config)
-    train_loader, test_loader = get_dataset()
+    train_loader, test_loader = get_dataset(dataset)
     student_train_config['name'] = args.student
     student_trainer = TrainManager(student_model, teacher=teacher_model, train_loader=train_loader, test_loader=test_loader, train_config=student_train_config)
     best_student_acc = student_trainer.train()
