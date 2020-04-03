@@ -18,8 +18,8 @@ def get_config():
         'trial_id': '[trial id not used]',
         'seed': search_space['seed']['_value'][0],
         # Tempature and lambda knowledeg distill hyperparam
-        'T_student': search_space['T_student']['_value'][0],
-        'lambda_student': search_space['lambda_student']['_value'][2], # temp of 1 is just regular softmax
+        'T_student': search_space['T_student']['_value'][2], # temp of 1 is just regular softmax
+        'lambda_student': search_space['lambda_student']['_value'][0], 
     }
     return config
 
