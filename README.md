@@ -18,6 +18,9 @@ TECHNIQUES TO IMPROVE LOW-PRECISION NETWORK ACCURACY](https://arxiv.org/pdf/1711
 * [DOREFA-NET: TRAINING LOW BITWIDTH CONVOLUTIONAL NEURAL NETWORKS WITH LOW BITWIDTH
 GRADIENTS](https://arxiv.org/pdf/1606.06160.pdf)
   * [code](https://github.com/bCom5/DoReFa-network-compression)
+ * [WRPN: Wide Reduced-Precision Networks](https://arxiv.org/pdf/1709.01134.pdf)
+ * [PACT: Parameterized Clipping Activation for Quantized Neural Networks](https://arxiv.org/abs/1805.06085)
+ * 
 
 ## Todo
 * Create the pipeline to train a network and knowledge distillation [Assigned: Brian]
