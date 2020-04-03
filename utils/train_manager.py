@@ -1,10 +1,13 @@
+import os
+import torch
+import copy
 import torch.optim as optim
 import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
-import torch
-from resnet_cifar import create_cnn_model, is_resnet
-from utils.dataset_loader import get_cifar100
+from resnet import get_model, is_resnet
+from utils.setup_manager import parse_arguments, load_checkpoint
+from utils.dataset_loader import get_dataset
 
 class TrainManager(object):
     def __init__(self, student, teacher=None, train_loader=None, test_loader=None, train_config={}):
@@ -118,13 +121,13 @@ class TrainManager(object):
 # Train Teacher if provided a teacher, otherwise it's a normal training using only cross entropy loss
 # This is for training single models(NOKD in paper) for baselines models (or training the first teacher)    
 def train_teacher(args, train_config):
-    teacher_model = create_cnn_model(args.teacher, dataset, use_cuda=args.cuda)
+    teacher_model = get_model(args.teacher, train_config['dataset'], use_cuda=args.cuda)
     if args.teacher_checkpoint:
         print("---------- Loading Teacher -------")
         teacher_model = load_checkpoint(teacher_model, args.teacher_checkpoint)
     else:
         print("---------- Training Teacher -------")
-        train_loader, test_loader = get_cifar100()
+        train_loader, test_loader = get_dataset()
         teacher_train_config = copy.deepcopy(train_config)
         teacher_name = '{}_{}_best.pth.tar'.format(args.teacher, train_config['trial_id'])
         teacher_train_config['name'] = args.teacher
@@ -133,6 +136,7 @@ def train_teacher(args, train_config):
         teacher_model = load_checkpoint(teacher_model, os.path.join('./', teacher_name))
 
 def train_student(args, train_config, teacher_model=None):
+    student_model = get_model(args.student, train_config['dataset'], use_cuda=args.cuda)    
     # Student training
     if teacher_model == None:
         print("---------- No Teacher -------------")
@@ -140,7 +144,7 @@ def train_student(args, train_config, teacher_model=None):
     else:
         print("---------- Training Student -------")
     student_train_config = copy.deepcopy(train_config)
-    train_loader, test_loader = get_cifar100()
+    train_loader, test_loader = get_dataset()
     student_train_config['name'] = args.student
     student_trainer = TrainManager(student_model, teacher=teacher_model, train_loader=train_loader, test_loader=test_loader, train_config=student_train_config)
     best_student_acc = student_trainer.train()

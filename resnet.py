@@ -294,7 +294,7 @@ def is_resnet(name):
     return name.startswith('resnet')
 
 
-def create_cnn_model(name, dataset="cifar100", use_cuda=False):
+def get_model(name, dataset="cifar100", use_cuda=False):
     """
     Create a student for training, given student name and dataset
     :param name: name of the student. e.g., resnet110, resnet32, plane2, plane10, ...
@@ -305,8 +305,8 @@ def create_cnn_model(name, dataset="cifar100", use_cuda=False):
     model = None
     if is_resnet(name):
         resnet_size = name[6:]
-        resnet_model = resnet_models.get(resnet_size)(num_classes=num_classes)
-        model = resnet_model
+        resnet_model = resnet_models.get(resnet_size)
+        model = resnet_model(num_classes=num_classes)
     else:
         raise Exception('not resnet!')
 

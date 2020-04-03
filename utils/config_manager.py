@@ -8,6 +8,7 @@ def get_train_config(args, config):
         'trial_id': config.get('trial_id'),
         'T_student': config.get('T_student'),
         'lambda_student': config.get('lambda_student'),
+        'dataset': args.dataset
     }
     return train_config
 

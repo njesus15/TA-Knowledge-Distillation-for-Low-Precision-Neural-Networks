@@ -30,3 +30,9 @@ def get_cifar100():
         num_workers=4, pin_memory=pin_memory)
     
     return train_loader, test_loader
+
+def get_dataset(dataset):
+    if dataset == 'cifar100':
+        return get_cifar100()
+    else:
+        raise Exception('only dataset is cifar100 currently!')
