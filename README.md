@@ -1,13 +1,13 @@
 # Knowledge Distillation of Low Precision Networks with Teacher Assistants
-We will take a full precision (32-bit) network and train it on Cifar-100. We will do knowledge distillation to a truncated (24-bit) network. We can either do this with a loss of both networks to the output or with an addition loss of the student to a tempature based of the teacher network.
+We will take a full precision (32-bit) network and train it on Cifar-100. We will do knowledge distillation to a truncated (16-bit) network. We can either do this with a loss of both networks to the output or with an addition loss of the student to a tempature based of the teacher network.
 
-We will do knowledge distillation from a 32-bit network to a 24-bit network, then use the 24-bit network into a 16-bit network, and repeat with a 8-bit network, and 1-bit network.
+We will do knowledge distillation from a 32-bit network to a 16-bit network, then use the 16-bit network into a 8-bit network, and repeat with a 4-bit network, 2-bit, and 1-bit network.
 
-We will also train each network individually.
+We will also train each network individually and compare the TA method vs. individually.
 
-We currently will do the quantization with truncation but use full precision gradients.
+We currently will do the quantization with truncation but use full precision gradients. We will not change parameter size or model depth.
 
-We will train on ResNet-20 and SqueezeNet.
+We will train on ResNet-20 and possibly SqueezeNet.
 
 ## References
 
@@ -26,3 +26,7 @@ GRADIENTS](https://arxiv.org/pdf/1606.06160.pdf)
 * Create the pipeline to train a network and knowledge distillation [Assigned: Brian]
 * Figure out truncation or other quantization method. DoReFa or another way to do it. [Assigned: Jesus]
 * Figure out transferring the weights or a student loss [Assigned: Aakash]
+
+### Update 4/13/20
+* Jesus - finish quantization methods
+* Updated README for what we plan on doing.
