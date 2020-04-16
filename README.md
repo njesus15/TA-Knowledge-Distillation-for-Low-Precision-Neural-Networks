@@ -20,7 +20,7 @@ GRADIENTS](https://arxiv.org/pdf/1606.06160.pdf)
   * [code](https://github.com/bCom5/DoReFa-network-compression)
  * [WRPN: Wide Reduced-Precision Networks](https://arxiv.org/pdf/1709.01134.pdf)
  * [PACT: Parameterized Clipping Activation for Quantized Neural Networks](https://arxiv.org/abs/1805.06085)
- * 
+ * [Quantizing deep convolutional networks for efficient inference: A whitepaper] (https://arxiv.org/pdf/1806.08342.pdf)
 
 ## Todo
 * Create the pipeline to train a network and knowledge distillation [Assigned: Brian]
