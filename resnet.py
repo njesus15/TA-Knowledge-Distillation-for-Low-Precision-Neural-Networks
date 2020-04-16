@@ -274,7 +274,7 @@ def resnet20_cifar(**kwargs):
     return model
 
 def resnet26_cifar(**kwargs):
-    model = ResNet_Cifar(BasicBlock, [4, 4, 4], **kwargs)
+    model = PreAct_ResNet_Cifar(PreActBasicBlock, [4, 4, 4], **kwargs)
     return model
 
 resnet_models = {

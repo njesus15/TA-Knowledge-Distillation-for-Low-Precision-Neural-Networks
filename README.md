@@ -30,3 +30,13 @@ GRADIENTS](https://arxiv.org/pdf/1606.06160.pdf)
 ### Update 4/13/20
 * Jesus - finish quantization methods
 * Updated README for what we plan on doing.
+
+### Update 4/15/20
+* (Jesus) Quantization should work now. Simply call get_quant_model(resnet_model, qparams) from resent_quant.py
+where qparams is a tuple [wbit, qbit, 'dorefa']. Only have dorefa implemented although other methods mentioned 
+above are very similar and should be easy to add. Since computations are still done full precision, I beleive
+calling .backward() on the loss computes full precision gradients.
+
+Short example on ResNetQ_Example.ipynb notebook prints forward pass outputs which include quantized activations
+and weights.
+

@@ -1,9 +1,10 @@
-import math
-import numpy as np
+import torch
 import torch.nn as nn
+import torch.nn.functional as F
+import numpy as np
+
 
 def uniform_quantize(k):
-# Refernce code from: https://github.com/zzzxxxttt/pytorch_DoReFaNet/blob/a12b6171555b8aba4d45e7dba6aeeab46be5480e/utils/quant_dorefa.py#L66
   class qfn(torch.autograd.Function):
 
     @staticmethod
@@ -24,52 +25,75 @@ def uniform_quantize(k):
 
   return qfn().apply
 
-def get_q_functions(wbit, abit, method='dorefa'):
-    """ Returns quantization functions for weights and activations of
-    convolutions and linear blocks
 
-    Inputs:
-    - wbit: int for desired bit quantization
-    - abit: int for desired activation bit quantization
-    - method: string with following quantization methods:
-            'asymRBL, symRBL, dorefa, pact, wrpn'
-    """
+class weight_quantize_fn(nn.Module):
+  def __init__(self, w_bit):
+    super(weight_quantize_fn, self).__init__()
+    assert w_bit <= 8 or w_bit == 32
+    self.w_bit = w_bit
+    self.uniform_q = uniform_quantize(k=w_bit)
 
-    if method == 'dorefa':
-        w_qfn, act_qfn = get_dorefa_fns(wbit, abit)
+  def forward(self, x):
+    if self.w_bit == 32:
+      weight_q = x
+    elif self.w_bit == 1:
+      E = torch.mean(torch.abs(x)).detach()
+      weight_q = self.uniform_q(x / E) * E
+      #print(weight_q)
+    else:
+      weight = torch.tanh(x)
+      max_w = torch.max(torch.abs(weight)).detach()
+      weight = weight / 2 / max_w + 0.5
+      weight_q = max_w * (2 * self.uniform_q(weight) - 1)
 
-    return w_qfn, act_qfn
+    return weight_q
 
 
-def get_dorefa_fns(wbit, abit):
+class activation_quantize_fn(nn.Module):
+  def __init__(self, a_bit):
+    super(activation_quantize_fn, self).__init__()
+    assert a_bit <= 8 or a_bit == 32
+    self.a_bit = a_bit
+    self.uniform_q = uniform_quantize(k=a_bit)
 
-    class dorefa_weight_quantize(nn.Module):
-        def __init__(self, wbit):
-            super(dorefa_weight_quantize, self).__init__()
-            self.wbit = wbit
-            self.uniform_q = uniform_quantize(k=wbit)
+  def forward(self, x):
+    if self.a_bit == 32:
+      activation_q = x
+    else:
+      activation_q = self.uniform_q(torch.clamp(x, 0, 1))
+      # print(np.unique(activation_q.detach().numpy()))
+    return activation_q
 
-        def forward(self, x):
-            # TODO: check wbit flags
-            weight = torch.tanh(x)
-            max_w = torch.max(torch.abs(weight)).detach()
-            weight = weight / (2 * max_w) + 0.5
-            weight_q = max_w * (2 * self.uniform_q(weight) - 1)
 
-            return weight_q
+def conv2d_Q_fn(w_bit):
+  class Conv2d_Q(nn.Conv2d):
+    def __init__(self, in_channels, out_channels, kernel_size, stride=1,
+                 padding=0, dilation=1, groups=1, bias=True):
+      super(Conv2d_Q, self).__init__(in_channels, out_channels, kernel_size, stride,
+                                     padding, dilation, groups, bias)
+      self.w_bit = w_bit
+      self.quantize_fn = weight_quantize_fn(w_bit=w_bit)
 
-    class dorefa_activations_quantize(nn.Module):
-        def __init__(self, abit):
-            super(dorefa_activations_quantize, self).__init__()
-            self.abit=abit
-            self.uniform_q = uniform_quantize(k=abit)
+    def forward(self, input, order=None):
+      weight_q = self.quantize_fn(self.weight)
+      print(weight_q)
+      # print(np.unique(weight_q.detach().numpy()))
+      return F.conv2d(input, weight_q, self.bias, self.stride,
+                      self.padding, self.dilation, self.groups)
 
-        def forward(self, x):
-            if self.a_bit == 32:
-              activation_q = x
-            else:
-              activation_q = self.uniform_q(torch.clamp(x, 0, 1))
-              # print(np.unique(activation_q.detach().numpy()))
-            return activation_q
+  return Conv2d_Q
 
-    return dorefa_weight_quantize, dorefa_activations_quantize
+
+def linear_Q_fn(w_bit):
+  class Linear_Q(nn.Linear):
+    def __init__(self, in_features, out_features, bias=True):
+      super(Linear_Q, self).__init__(in_features, out_features, bias)
+      self.w_bit = w_bit
+      self.quantize_fn = weight_quantize_fn(w_bit=w_bit)
+
+    def forward(self, input):
+      weight_q = self.quantize_fn(self.weight)
+      # print(np.unique(weight_q.detach().numpy()))
+      return F.linear(input, weight_q, self.bias)
+
+  return Linear_Q
