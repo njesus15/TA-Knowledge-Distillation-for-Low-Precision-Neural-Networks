@@ -20,7 +20,10 @@ GRADIENTS](https://arxiv.org/pdf/1606.06160.pdf)
   * [code](https://github.com/bCom5/DoReFa-network-compression)
  * [WRPN: Wide Reduced-Precision Networks](https://arxiv.org/pdf/1709.01134.pdf)
  * [PACT: Parameterized Clipping Activation for Quantized Neural Networks](https://arxiv.org/abs/1805.06085)
- * [Quantizing deep convolutional networks for efficient inference: A whitepaper] (https://arxiv.org/pdf/1806.08342.pdf)
+ * [Quantizing deep convolutional networks for efficient inference: A whitepaper](https://arxiv.org/pdf/1806.08342.pdf)
+*[QKD: Quantization-aware Knowledge Distillation](https://arxiv.org/pdf/1911.12491.pdf)
+*[Trained Ternary Quantization](https://arxiv.org/abs/1612.01064)
+*[Ternary Neural Networks with Fine-Grained Quantization](https://arxiv.org/abs/1705.01462)
 
 ## Todo
 * Create the pipeline to train a network and knowledge distillation [Assigned: Brian]
@@ -39,4 +42,15 @@ calling .backward() on the loss computes full precision gradients.
 
 Short example on ResNetQ_Example.ipynb notebook prints forward pass outputs which include quantized activations
 and weights.
+
+# Baselines
+- TTQ (Zuh et al) uses achieves state-of-the-art accuracy with ternary weights and 32 bit activations
+achieving 33.4% top1 accuracy with resnet 18
+- TTQ scheme on Imagenet-1k achieved 28.3% and 25.6% on top 1 with ResNet 34 50.
+- 2-bit weights and 8 bit act: 29.24% top1 error ResNet50 by Mellempudi et al. (2017) 
+- Training Quantized Neural Networks with a Full-precision Auxiliary Module 
+![ResNet](./images/ResnetAux.png?raw=true "Title")
+
+# Experiments 
+
 
