@@ -19,7 +19,6 @@ class Conv2d_Q(nn.Conv2d):
 
         super(Conv2d_Q, self).__init__(in_planes, out_planes, kernel_size, stride,
                                        padding, bias=False)
-        self.wbit = wbit
         self.qfn = weight_quantize_fn(w_bit=wbit)
 
 
@@ -227,9 +226,3 @@ def get_quant_model(name, qparams, dataset="cifar100", use_cuda=False):
         model = model.cuda()
 
     return model
-
-
-
-
-
-

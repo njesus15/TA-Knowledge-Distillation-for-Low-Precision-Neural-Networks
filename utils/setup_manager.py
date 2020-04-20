@@ -6,8 +6,8 @@ def str2bool(v):
         return True
     else:
         return False
-    
-    
+
+
 def parse_arguments():
     parser = argparse.ArgumentParser(description='TA Knowledge Distillation Code')
     parser.add_argument('--epochs', default=200, type=int,  help='number of total epochs to run')
@@ -23,6 +23,12 @@ def parse_arguments():
     parser.add_argument('--dataset-dir', default='./data', type=str,  help='dataset directory')
     parser.add_argument('--trial-id', default='[trial_id_not_used]', type=str,  help='dataset directory')
     parser.add_argument('--test-run', action='store_true', help='test everything loads correctly')
+    parser.add_argument('--teacher-wbits', default = 8 )
+    parser.add_argument('--teacher-abits', default = 8 )
+    parser.add_argument('--teacher-quantization', default = 'dorefa' )
+    parser.add_argument('--student-wbits', default = 4 )
+    parser.add_argument('--student-abits', default = 4 )
+    parser.add_argument('--student-quantization', default = 'dorefa' )
     args = parser.parse_args()
     return args
 
@@ -37,5 +43,3 @@ def load_checkpoint(model, checkpoint_path):
     model_ckp = torch.load(checkpoint_path)
     model.load_state_dict(model_ckp['model_state_dict'])
     return model
-
-

@@ -16,7 +16,7 @@ if __name__ == "__main__":
     config = get_config()
     torch.manual_seed(config['seed'])
     torch.cuda.manual_seed(config['seed'])
-    
+
     train_config = get_train_config(args, config)
 
     if args.test_run:
@@ -25,7 +25,7 @@ if __name__ == "__main__":
     # train teacher
     teacher_model = None
     if args.teacher:
-        train_teacher(args, train_config)
+        teacher_model = train_teacher(args, train_config)
 
     # train student
     train_student(args, train_config, teacher_model)
