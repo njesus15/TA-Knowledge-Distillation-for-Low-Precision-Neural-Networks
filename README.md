@@ -43,6 +43,9 @@ calling .backward() on the loss computes full precision gradients.
 Short example on ResNetQ_Example.ipynb notebook prints forward pass outputs which include quantized activations
 and weights.
 
+### Update 4/21/20
+* (Aakash) Updated pipeline to take in parameters for teacher and student precision. Trains teacher model, copies weights to student model and then trains student model 
+
 # Baselines
 - TTQ (Zuh et al) uses achieves state-of-the-art accuracy with ternary weights and 32 bit activations
 achieving 33.4% top1 accuracy with resnet 18
