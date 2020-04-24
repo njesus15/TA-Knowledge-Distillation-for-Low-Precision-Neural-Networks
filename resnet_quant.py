@@ -33,7 +33,7 @@ class Conv2d_Q(nn.Conv2d):
 class PreActBasicBlock_convQ(nn.Module):
     expansion = 1
 
-    def __init__(self, q_method, wbit, abit, in_planes, out_planes, stride, downsample=None):
+    def __init__(self, q_method, wbit, abit, in_planes, out_planes, stride=1, downsample=None):
         super(PreActBasicBlock_convQ, self).__init__()
         self.act_qfn = activation_quantize_fn(a_bit=abit)
         # TODO: Move class from this file
@@ -177,7 +177,7 @@ def resnet14_cifar(wbit, abit, q_method=None, **kwargs):
 
 
 def resnet20_cifar(wbit, abit, q_method=None, **kwargs):
-    model = PreAct_ResNet_Cifar_Q(wbit, abit, q_method, PreActBasicBlock_convQ, [3, 3, 3], wbit, abit, q_method=q_method, **kwargs)
+    model = PreAct_ResNet_Cifar_Q(PreActBasicBlock_convQ, [3, 3, 3], wbit, abit, q_method=q_method, **kwargs)
     return model
 
 
@@ -213,6 +213,7 @@ def get_quant_model(name, qparams, dataset="cifar100", use_cuda=False):
     """
     num_classes = 100 if dataset == 'cifar100' else 10
     wbits, abits, q_method = qparams
+
     model = None
     if is_resnet(name):
         resnet_size = name[6:]

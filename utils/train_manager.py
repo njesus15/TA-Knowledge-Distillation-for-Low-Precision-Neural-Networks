@@ -67,7 +67,7 @@ class TrainManager(object):
             val_acc = self.validate(step=epoch)
             if val_acc > best_acc:
                 best_acc = val_acc
-                self.save(epoch, name='{}_{}_best.pth.tar'.format(self.name, trial_id))
+                self.save(epoch, name='states/{}_{}_best.pth.tar'.format(self.name, trial_id))
 
         return best_acc
 
@@ -97,7 +97,7 @@ class TrainManager(object):
                 'epoch': epoch,
                 'model_state_dict': self.student.state_dict(),
                 'optimizer_state_dict': self.optimizer.state_dict(),
-            }, '{}_{}_epoch{}.pth.tar'.format(self.name, trial_id, epoch))
+            }, 'states/{}_{}_epoch{}.pth.tar'.format(self.name, trial_id, epoch))
         else:
             torch.save({
                 'model_state_dict': self.student.state_dict(),
@@ -123,7 +123,7 @@ class TrainManager(object):
 # This is for training single models(NOKD in paper) for baselines models (or training the first teacher)
 def train_teacher(args, train_config):
     dataset = train_config['dataset']
-    teacher_model = get_quant_model(args.teacher, [args.teacher_wbits, args.teacher_abits, args.teacher_quantization], dataset, use_cuda=args.cuda)
+    teacher_model = get_quant_model(args.teacher, (args.teacher_wbits, args.teacher_abits, args.teacher_quantization), dataset, use_cuda=args.cuda)
     if args.teacher_checkpoint:
         print("---------- Loading Teacher -------")
         teacher_model = load_checkpoint(teacher_model, args.teacher_checkpoint)
@@ -131,7 +131,7 @@ def train_teacher(args, train_config):
         print("---------- Training Teacher -------")
         train_loader, test_loader = get_dataset(dataset)
         teacher_train_config = copy.deepcopy(train_config)
-        teacher_name = '{}_{}_best.pth.tar'.format(args.teacher, train_config['trial_id'])
+        teacher_name = 'states/{}_{}_best.pth.tar'.format(args.teacher, train_config['trial_id'])
         teacher_train_config['name'] = args.teacher
         teacher_trainer = TrainManager(teacher_model, teacher=None, train_loader=train_loader, test_loader=test_loader, train_config=teacher_train_config)
         teacher_trainer.train()
@@ -140,7 +140,8 @@ def train_teacher(args, train_config):
 
 def train_student(args, train_config, teacher_model=None):
     dataset = train_config['dataset']
-    student_model = get_quant_model(args.student, [args.student_wbits, args.student_abits, args.student_quantization], dataset, use_cuda=args.cuda)
+    print(f'quant:{args.student_quantization}')
+    student_model = get_quant_model(args.student, (args.student_wbits, args.student_abits, args.student_quantization), dataset, use_cuda=args.cuda)
     # Student training
     if teacher_model == None:
         print("---------- No Teacher -------------")
