@@ -18,7 +18,7 @@ def parse_arguments():
     parser.add_argument('--weight-decay', default=1e-4, type=float, help='SGD weight decay (default: 1e-4)')
     parser.add_argument('--teacher', default='', type=str, help='teacher student name')
     parser.add_argument('--student', '--model', default='resnet8', type=str, help='teacher student name')
-    parser.add_argument('--teacher-checkpoint', default='', sttype=r, help='optinal pretrained checkpoint for teacher')
+    parser.add_argument('--teacher-checkpoint', default='', type=str, help='optional pretrained checkpoint for teacher')
     parser.add_argument('--cuda', default=False, type=str2bool, help='whether or not use cuda(train on GPU)')
     parser.add_argument('--dataset-dir', default='./data', type=str,  help='dataset directory')
     parser.add_argument('--trial-id', default='[trial_id_not_used]', type=str,  help='dataset directory')
