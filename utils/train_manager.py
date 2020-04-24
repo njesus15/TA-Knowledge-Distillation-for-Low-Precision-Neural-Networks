@@ -137,6 +137,7 @@ def train_teacher(args, train_config):
         teacher_trainer.train()
         teacher_model = load_checkpoint(teacher_model, os.path.join('./', teacher_name))
     return teacher_model
+
 def train_student(args, train_config, teacher_model=None):
     dataset = train_config['dataset']
     student_model = get_quant_model(args.student, [args.student_wbits, args.student_abits, args.student_quantization], dataset, use_cuda=args.cuda)
