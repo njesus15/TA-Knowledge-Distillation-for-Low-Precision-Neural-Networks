@@ -26,7 +26,7 @@ class Conv2d_Q(nn.Conv2d):
 
     def forward(self, x):
         print(f'x: {x.type()}')
-        print(f'self.weight_q: {self.weight_q.type()}')
+        print(f'self.weight_q: {self.weights_q.type()}')
         
         out = nn.functional.conv2d(x, self.weights_q, self.bias, self.stride,
                                     self.padding)
