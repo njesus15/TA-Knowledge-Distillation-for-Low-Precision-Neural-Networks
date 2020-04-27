@@ -19,6 +19,27 @@ class Conv2d_Q(nn.Conv2d):
         super(Conv2d_Q, self).__init__(in_planes, out_planes, kernel_size, stride,
                                        padding, bias=False)
         self.qfn = weight_quantize_fn(w_bit=wbit)
+        # @BL fix for now
+        self.weights_q = self.qfn(self.weight)
+        self.weights_fp = self.weight
+
+
+    def forward(self, x):
+        
+        out = nn.functional.conv2d(x, self.weights_q, self.bias, self.stride,
+                                    self.padding)
+        return out
+
+'''
+# @BL bug with setting weights_q and weights_fp when loading
+class Conv2d_Q(nn.Conv2d):
+
+    def __init__(self, wbit, in_planes, out_planes, kernel_size=3, stride=1,
+                 padding=1, q_method='dorefa', bias=False):
+
+        super(Conv2d_Q, self).__init__(in_planes, out_planes, kernel_size, stride,
+                                       padding, bias=False)
+        self.qfn = weight_quantize_fn(w_bit=wbit)
 
 
     def forward(self, x):
@@ -27,6 +48,7 @@ class Conv2d_Q(nn.Conv2d):
         self.weights_fp = self.weight
         return nn.functional.conv2d(x, weights_q, self.bias, self.stride,
                                     self.padding)
+'''
 
 
 class PreActBasicBlock_convQ(nn.Module):
