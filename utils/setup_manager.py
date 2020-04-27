@@ -41,7 +41,11 @@ def load_checkpoint(model, checkpoint_path):
     :return: pytorch nn student with weights loaded from checkpoint
     """
     model_ckp = torch.load(checkpoint_path, map_location=torch.device('cpu'))
-    model.load_state_dict(model_ckp['model_state_dict'])
-    print(f'after loading model state, is model cuda? {next(model.parameters()).is_cuda}')
+    model_ckp = model_ckp['model_state_dict']
+
+    new_state = {}
+    for key in model.state_dict().keys():
+        new_state[key] = model_ckp[key]
+    model.load_state_dict(new_state)
 
     return model
