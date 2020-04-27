@@ -25,11 +25,13 @@ class Conv2d_Q(nn.Conv2d):
 
     def forward(self, x):
         # @Brian hack to fix cuda?
-        try:
-            out = nn.functional.conv2d(x, self.weights_q, self.bias, self.stride,
-                                        self.padding)
-        except:
-            out = nn.functional.conv2d(x, self.weights_q.cuda(), self.bias, self.stride,
+        print('in Conv2d_Q')
+        print(f'x: {type(x)}')
+        print(f'self.weights_q: {type(self.weights_q)}')
+        print(f'self.bias: {type(self.bias)}')
+        print(f'self.stride: {type(self.stride)}')
+        print(f'self.padding: {type(self.padding)}')
+        out = nn.functional.conv2d(x, self.weights_q, self.bias, self.stride,
                                         self.padding)
         return out
 
