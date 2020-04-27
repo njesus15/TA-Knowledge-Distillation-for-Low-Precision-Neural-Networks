@@ -42,5 +42,6 @@ def load_checkpoint(model, checkpoint_path):
     """
     model_ckp = torch.load(checkpoint_path, map_location=torch.device('cpu'))
     model.load_state_dict(model_ckp['model_state_dict'])
+    print(f'after loading model state, is model cuda? {next(model.parameters()).is_cuda}')
 
     return model
