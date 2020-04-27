@@ -24,8 +24,14 @@ class Conv2d_Q(nn.Conv2d):
 
 
     def forward(self, x):
-        return nn.functional.conv2d(x, self.weights_q, self.bias, self.stride,
-                                    self.padding)
+        # @Brian hack to fix cuda?
+        try:
+            out = nn.functional.conv2d(x, self.weights_q, self.bias, self.stride,
+                                        self.padding)
+        except:
+            out = nn.functional.conv2d(x, self.weights_q.cuda(), self.bias, self.stride,
+                                        self.padding)
+        return out
 
 
 class PreActBasicBlock_convQ(nn.Module):
