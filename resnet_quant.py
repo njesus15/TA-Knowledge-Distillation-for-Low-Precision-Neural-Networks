@@ -19,16 +19,10 @@ class Conv2d_Q(nn.Conv2d):
         super(Conv2d_Q, self).__init__(in_planes, out_planes, kernel_size, stride,
                                        padding, bias=False)
         self.qfn = weight_quantize_fn(w_bit=wbit)
-        # @BL fix for now
-        self.weights_q = self.qfn(self.weight)
-        self.weights_fp = self.weight
-
 
     def forward(self, x):
-        print(f'x: {x.type()}')
-        print(f'self.weight_q: {self.weights_q.type()}')
-        
-        out = nn.functional.conv2d(x, self.weights_q, self.bias, self.stride,
+        weights_q = self.qfn(self.weight)
+        out = nn.functional.conv2d(x, weights_q, self.bias, self.stride,
                                     self.padding)
         return out
 
