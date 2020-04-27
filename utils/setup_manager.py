@@ -40,6 +40,7 @@ def load_checkpoint(model, checkpoint_path):
     :param str checkpoint_path: address/path of a file
     :return: pytorch nn student with weights loaded from checkpoint
     """
-    model_ckp = torch.load(checkpoint_path)
+    model_ckp = torch.load(checkpoint_path, map_location=torch.device('cpu'))
     model.load_state_dict(model_ckp['model_state_dict'])
+
     return model

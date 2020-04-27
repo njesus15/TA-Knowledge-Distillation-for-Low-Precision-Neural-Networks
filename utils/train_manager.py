@@ -60,7 +60,8 @@ class TrainManager(object):
                                                       F.softmax(teacher_outputs / T, dim=1))
                     loss = (1 - lambda_) * loss_SL + lambda_ * T * T * loss_KD
                 print("Batch %d of %d , loss %.3f"%(batch_idx, total_batches, loss),end="\r")
-                loss.backward()
+                #print('before loss backward')
+                loss.backward(retain_graph=True)
                 self.optimizer.step()
 
             print("epoch {}/{}".format(epoch, epochs))
@@ -140,7 +141,6 @@ def train_teacher(args, train_config):
 
 def train_student(args, train_config, teacher_model=None):
     dataset = train_config['dataset']
-    print(f'quant:{args.student_quantization}')
     student_model = get_quant_model(args.student, (args.student_wbits, args.student_abits, args.student_quantization), dataset, use_cuda=args.cuda)
     # Student training
     if teacher_model == None:

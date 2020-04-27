@@ -10,7 +10,6 @@ import torch.nn as nn
 import math
 from quantization.q_funcs import *
 from utils.dataset_loader import get_dataset
-from resnet import get_model
 
 class Conv2d_Q(nn.Conv2d):
 
@@ -20,13 +19,12 @@ class Conv2d_Q(nn.Conv2d):
         super(Conv2d_Q, self).__init__(in_planes, out_planes, kernel_size, stride,
                                        padding, bias=False)
         self.qfn = weight_quantize_fn(w_bit=wbit)
+        self.weights_q = self.qfn(self.weight)
+        self.weights_fp = self.weight
 
 
     def forward(self, x):
-        weights_q = self.qfn(self.weight)
-        self.weights_q = weights_q
-        self.weights_fp = self.weight
-        return nn.functional.conv2d(x, weights_q, self.bias, self.stride,
+        return nn.functional.conv2d(x, self.weights_q, self.bias, self.stride,
                                     self.padding)
 
 
