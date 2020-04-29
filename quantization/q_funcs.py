@@ -34,6 +34,7 @@ class weight_quantize_fn(nn.Module):
     self.uniform_q = uniform_quantize(k=w_bit)
 
   def forward(self, x):
+
     if self.w_bit == 32:
       weight_q = x
     elif self.w_bit == 1:
