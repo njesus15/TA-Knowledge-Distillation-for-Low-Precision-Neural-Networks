@@ -8,6 +8,13 @@ Save states in this file
 * 2 bit: 54.39%
 * 1 bit: 36.64%
 
+Example command:
+`python3 main.py --epochs 160 --student resnet20 --student-wbits 1 --student-abits 1 --dataset cifar100 --cuda 1 --trial-id '1bit_indiv'`
+
 ## TA Trained
 * 32 bit to 16 bit:
     * temp: 5, lambda: 0.05: 64.06% accuracy
+
+Example command:
+`python3 main.py --epochs 160 --teacher resnet20 --teacher-checkpoint states/indv/resnet20_32bit_indiv_acc_64_29_best.pth.tar  --teacher-wbits 32 --teacher-abits 32\
+  --student resnet20 --student-wbits 16 --student-abits 16 --dataset cifar100 --trial-id '16bit_ta' --cuda 1`
