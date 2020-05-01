@@ -2,8 +2,8 @@ Save states in this file
 
 ## Individual Trained
 * 32 bit: 64.29% accuracy
-* 16 bit: 61.02%
-* 8 bit: 60.89%
+* 16 bit: 61.02%, 59.83
+* 8 bit: 60.89%, 60.4
 * 4 bit: 61.13%
 * 2 bit: 54.39%
 * 1 bit: 36.64%
@@ -14,6 +14,8 @@ Example command:
 ## TA Trained
 * 32 bit to 16 bit:
     * temp: 5, lambda: 0.05: 64.06% accuracy
+* 16 bit to 8 bit:
+    * 64.06% accuracy (best student acc)
 
 Example command:
 `python3 main.py --epochs 160 --teacher resnet20 --teacher-checkpoint states/indv/resnet20_32bit_indiv_acc_64_29_best.pth.tar  --teacher-wbits 32 --teacher-abits 32\
