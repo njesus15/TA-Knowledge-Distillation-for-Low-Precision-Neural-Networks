@@ -29,6 +29,7 @@ def parse_arguments():
     parser.add_argument('--student-wbits', type=int, default=4)
     parser.add_argument('--student-abits', type=int, default=4)
     parser.add_argument('--student-quantization', default='dorefa')
+    parser.add_argument('--seed', type=int, default=20)
     args = parser.parse_args()
     return args
 

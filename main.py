@@ -13,7 +13,7 @@ if __name__ == "__main__":
     # Parsing arguments and prepare settings for training
     args = parse_arguments()
     print(args)
-    config = get_config()
+    config = get_config(args)
     torch.manual_seed(config['seed'])
     torch.cuda.manual_seed(config['seed'])
 

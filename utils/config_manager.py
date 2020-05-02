@@ -13,7 +13,7 @@ def get_train_config(args, config):
     return train_config
 
 
-def get_config():
+def get_config(args):
     search_space = {
         "lambda_student": {
             "_type": "quniform",
@@ -30,7 +30,7 @@ def get_config():
     }
 
     config = {
-        'seed': search_space['seed']['_value'][0],
+        'seed': args.seed, # search_space['seed']['_value'][0],
         # Tempature and lambda knowledeg distill hyperparam
         'T_student': search_space['T_student']['_value'][2], # temp of 1 is just regular softmax
         'lambda_student': search_space['lambda_student']['_value'][0], 
