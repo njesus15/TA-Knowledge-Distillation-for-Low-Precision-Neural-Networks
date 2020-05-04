@@ -3,10 +3,10 @@ Save states in this file
 ## Individual Trained Accuracy
 * 32 bit: 64.29%, 63.33%
 * 16 bit: 61.02%, 59.83%, 60.37%
-* 8 bit: 60.89%, 60.4%, 60.90%
-* 4 bit: 61.13%
-* 2 bit: 54.39%
-* 1 bit: 36.64%
+* 8 bit: 60.89%, 60.40%, 60.90%
+* 4 bit: 61.13%, 60.49%
+* 2 bit: 54.39%, 52.99%
+* 1 bit: 36.64%, 37.36%
 
 Example command:
 `python3 main.py --epochs 160 --student resnet20 --student-wbits 1 --student-abits 1 --dataset cifar100 --cuda 1 --trial-id '1bit_indiv'`
