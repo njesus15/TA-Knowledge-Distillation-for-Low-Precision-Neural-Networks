@@ -22,6 +22,29 @@ Example command:
     * 57.84% accuracy
 * 2 bit to 1 bit
     * 40.03% accuracy
+
+* 32 bit to 8 bit
+    * 64.03%
+* 8 bit to 2 bit
+    * 57.96
+* 2 bit to 1 bit
+    * 40.9
+
+
+* 16 bit to 4 bit
+    * 61.9
+* 4 bit to 1 bit
+    * 40.73
+
+* 32 bit to 1 bit
+    * 37.65
+* 16 bit to 1 bit
+    * 39.61
+* 8 bit to 1 bit
+    * 41.77
+
+
+
 Example command:
 `python3 main.py --epochs 160 --teacher resnet20 --teacher-checkpoint states/indv/resnet20_32bit_indiv_acc_64_29_best.pth.tar  --teacher-wbits 32 --teacher-abits 32\
   --student resnet20 --student-wbits 16 --student-abits 16 --dataset cifar100 --trial-id '16bit_ta' --cuda 1`
