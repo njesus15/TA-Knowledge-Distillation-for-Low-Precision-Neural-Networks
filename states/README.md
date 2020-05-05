@@ -11,6 +11,13 @@ Save states in this file
 Example command:
 `python3 main.py --epochs 160 --student resnet20 --student-wbits 1 --student-abits 1 --dataset cifar100 --cuda 1 --trial-id '1bit_indiv'`
 
+## Model Distilled Accuracy
+* 16 bit: 64.33%
+* 8 bit: 61.68%
+* 4 bit: 62.24%
+* 2 bit: 57.80%
+* 1 bit: 41.99%
+
 ## TA Trained Accuracy
 * 32 bit to 16 bit:
     * temp: 5, lambda: 0.05: 64.06%
