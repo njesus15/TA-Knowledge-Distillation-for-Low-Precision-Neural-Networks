@@ -23,19 +23,19 @@ Example command:
 * 2 bit to 1 bit
     * 40.03% accuracy
 
+### TA training 32-8-2-1
 * 32 bit to 8 bit
     * 64.03%
 * 8 bit to 2 bit
     * 57.96
 * 2 bit to 1 bit
     * 40.9
-
-
+### TA training 16-4-1
 * 16 bit to 4 bit
     * 61.9
 * 4 bit to 1 bit
     * 40.73
-
+### TA training 32/16/8-1
 * 32 bit to 1 bit
     * 37.65
 * 16 bit to 1 bit
