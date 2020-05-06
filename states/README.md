@@ -8,6 +8,13 @@ Save states in this file
 * 2 bit: 54.39%, 52.99%
 * 1 bit: 36.64%, 37.36%
 
+# Cifar10
+# 32 bit: 88.67%
+# 16 bit: 87.34%
+# 4 bit: 87.6%
+# 2 bit: 85.6%
+# 1 bit: 73.88%
+
 Example command:
 `python3 main.py --epochs 160 --student resnet20 --student-wbits 1 --student-abits 1 --dataset cifar100 --cuda 1 --trial-id '1bit_indiv'`
 
