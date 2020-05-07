@@ -13,6 +13,7 @@ Save states in this file
 ### Cifar 10
 * 32 bit: 89.83
 * 16 bit: 87.34
+* 8 bit: ?
 * 4 bit: 87.6
 * 2 bit: 85.6
 * 1 bit: 73.88
