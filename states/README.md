@@ -9,7 +9,7 @@ Save states in this file
 * 1 bit: 36.64%, 37.36%
 
 # Cifar10
-* 32 bit: 88.67%
+* 32 bit: 89.83%
 * 16 bit: 87.34%
 * 4 bit: 87.6%
 * 2 bit: 85.6%
@@ -36,6 +36,32 @@ Example command:
     * 57.84%
 * 2 bit to 1 bit
     * 40.03% accuracy
+### Cifar10 (Individually Trained)
+* 32 bit to 16 bit:
+	* 89.73%
+* 16 bit to 8 bit:
+	*89.41%
+* 8 bit to 4 bit:
+	*88.55%
+* 4 bit to 2 bit:
+	*86.43 %
+* 2 bit to 1 bit:
+	*77.26%
+* 32 bit to 1 bit:
+	* 75.54%
+
+### Cifar10 (TAs)
+*16bit TA to 8 bit:
+	* 90.14%
+*16-8bit TA to 4 bit:
+	*90.3
+*16-8-4bit TA to 2 bit:
+	*87.83
+*16-8-4-2 to 1 bit:
+ 	* 77.31%
+*32-18-8 to 1 bit:
+	*75.41
+
 
 ### TA training 32-8-2-1
 * 32 bit to 8 bit
