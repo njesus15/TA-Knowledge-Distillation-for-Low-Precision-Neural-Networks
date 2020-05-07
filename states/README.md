@@ -51,17 +51,16 @@ Example command:
 	* 75.54%
 
 ### Cifar10 (TAs)
-*16bit TA to 8 bit:
+* 16bit TA to 8 bit:
 	* 90.14%
-*16-8bit TA to 4 bit:
-	*90.3
-*16-8-4bit TA to 2 bit:
-	*87.83
-*16-8-4-2 to 1 bit:
+* 16-8bit TA to 4 bit:
+	* 90.3
+* 16-8-4bit TA to 2 bit:
+	* 87.83
+* 16-8-4-2 to 1 bit:
  	* 77.31%
-*32-18-8 to 1 bit:
-	*75.41
-
+* 32-18-8 to 1 bit:
+	* 75.41
 
 ### TA training 32-8-2-1
 * 32 bit to 8 bit
