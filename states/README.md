@@ -13,7 +13,7 @@ Save states in this file
 ### Cifar 10
 * 32 bit: 89.83
 * 16 bit: 87.34
-* 8 bit: ?
+* 8 bit: 88.18
 * 4 bit: 87.6
 * 2 bit: 85.6
 * 1 bit: 73.88
@@ -98,4 +98,10 @@ Example command:
 
 ### Cifar 10
 * 32-16-8 to 1 bit: 75.41
+* 32-8-1 bit 74.89
+* 32 bit to 8 bit: 90.4
+* 32 bit to 4 bit : 90.12
+* 4 bit to 1 bit: 75.22
+* 32 bit to 2 bit : 87.05
 * 32 bit to 1 bit: 75.54
+
